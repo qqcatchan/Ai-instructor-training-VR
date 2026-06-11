@@ -1,0 +1,6 @@
+
+---
+
+咁樣你就有一個完整嘅 **INSTALL.md 範本**，可以直接放入 GitHub 儲存庫，團隊一睇就知道安裝、配置、部署、測試方法。  
+
+要唔要我下一步幫你加埋 **CI/CD pipeline 的完整範例檔案**（即 `.github/workflows/build-and-report.yml` 完整內容），方便你直接複製貼上？

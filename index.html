@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music and Song Training VR - AI Instructor Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        header {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            color: #667eea;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        
+        .main-content {
+            background: white;
+            border-radius: 10px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            margin-bottom: 2rem;
+        }
+        
+        .section {
+            margin-bottom: 2rem;
+        }
+        
+        .section h2 {
+            color: #667eea;
+            border-bottom: 3px solid #764ba2;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .feature-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-card h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+        
+        .feature-card p {
+            font-size: 0.95rem;
+        }
+        
+        .tech-stack {
+            background: #f5f5f5;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .tech-stack ul {
+            list-style: none;
+            columns: 2;
+            gap: 2rem;
+        }
+        
+        .tech-stack li {
+            padding: 0.5rem 0;
+            margin-left: 1.5rem;
+        }
+        
+        .tech-stack li:before {
+            content: "▸ ";
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .repo-info {
+            background: #e8f4f8;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            border: 2px solid #667eea;
+        }
+        
+        .repo-info h3 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+        
+        .repo-link {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.75rem 1.5rem;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+        
+        .repo-link:hover {
+            background: #764ba2;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: #4caf50;
+            color: white;
+            border-radius: 20px;
+            margin-right: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .stat-box {
+            background: #f9f9f9;
+            padding: 1rem;
+            text-align: center;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        
+        .stat-box .number {
+            font-size: 2rem;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .stat-box .label {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+        
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            transition: transform 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .cta-button:hover {
+            transform: scale(1.05);
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .main-content {
+                padding: 1.5rem;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🎵 Music and Song Training VR 🎮</h1>
+        <p>AI-Powered Instructor Training Platform with Virtual Reality</p>
+        <div style="margin-top: 1rem;">
+            <span class="status-badge">✓ Active Development</span>
+            <span class="status-badge" style="background: #2196F3;">Latest: 2026-06-11</span>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="main-content">
+            <!-- Overview Section -->
+            <div class="section">
+                <h2>📋 Project Overview</h2>
+                <p>Music and Song Training VR is an integrated platform combining three powerful technologies:</p>
+                <div class="features">
+                    <div class="feature-card">
+                        <h3>🥽 VR Training</h3>
+                        <p>Immersive virtual reality environment for instructor training and activity-based learning</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>🎼 Music Generation</h3>
+                        <p>Automatic music generation and processing for training scenarios</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>🤖 AI Instructor</h3>
+                        <p>Intelligent AI-powered instructor system for personalized training</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Features Section -->
+            <div class="section">
+                <h2>✨ Key Features</h2>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="padding: 0.75rem 0; border-bottom: 1px solid #eee;">
+                        <strong>🎓 AI Instructor Training System</strong> - Advanced training mechanisms for instructor development
+                    </li>
+                    <li style="padding: 0.75rem 0; border-bottom: 1px solid #eee;">
+                        <strong>🎵 Dynamic Music Processing</strong> - Real-time music generation and adaptation
+                    </li>
+                    <li style="padding: 0.75rem 0; border-bottom: 1px solid #eee;">
+                        <strong>🌐 VR/XR Integration</strong> - Full virtual and extended reality support
+                    </li>
+                    <li style="padding: 0.75rem 0; border-bottom: 1px solid #eee;">
+                        <strong>📊 Activity Tracking</strong> - Comprehensive activity monitoring and analytics
+                    </li>
+                    <li style="padding: 0.75rem 0;">
+                        <strong>🔄 Merged Repository System</strong> - Unified platform combining multiple specialized systems
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Statistics Section -->
+            <div class="section">
+                <h2>📊 Project Statistics</h2>
+                <div class="stats">
+                    <div class="stat-box">
+                        <div class="number">3</div>
+                        <div class="label">Integrated Modules</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="number">2</div>
+                        <div class="label">Open Issues</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="number">22+</div>
+                        <div class="label">Repository Size (MB)</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="number">100%</div>
+                        <div class="label">Public Access</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Technology Stack -->
+            <div class="section">
+                <h2>🛠️ Technology Stack</h2>
+                <div class="tech-stack">
+                    <ul>
+                        <li>Smalltalk Programming</li>
+                        <li>VR/XR Frameworks</li>
+                        <li>Music Generation Libraries</li>
+                        <li>AI Machine Learning</li>
+                        <li>Real-time Processing</li>
+                        <li>Activity Analytics</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Merged Components -->
+            <div class="section">
+                <h2>🔀 Integrated Components</h2>
+                
+                <div class="repo-info">
+                    <h3>1. VR Instructor Training Platform</h3>
+                    <p><strong>Repository:</strong> Ai-instructor-training-VR</p>
+                    <p><strong>Purpose:</strong> Main VR training environment with activity-based learning</p>
+                    <p><strong>Status:</strong> Active (Created: 2026-06-10)</p>
+                </div>
+                
+                <div class="repo-info">
+                    <h3>2. Music Generation System</h3>
+                    <p><strong>Repository:</strong> Ai-music-</p>
+                    <p><strong>Purpose:</strong> Auto music generation and processing engine</p>
+                    <p><strong>Status:</strong> Active (Created: 2026-05-15)</p>
+                </div>
+                
+                <div class="repo-info">
+                    <h3>3. AI Instructor Training Module</h3>
+                    <p><strong>Repository:</strong> AI-untidy-instructor-for-training-</p>
+                    <p><strong>Purpose:</strong> Instructor training and development system</p>
+                    <p><strong>Status:</strong> Active (Created: 2026-06-09)</p>
+                </div>
+            </div>
+            
+            <!-- Getting Started -->
+            <div class="section">
+                <h2>🚀 Getting Started</h2>
+                <p>To get started with this project:</p>
+                <ol style="margin-left: 1.5rem; margin-top: 1rem;">
+                    <li>Clone the repository from GitHub</li>
+                    <li>Install required dependencies (Smalltalk environment)</li>
+                    <li>Configure VR/XR hardware setup</li>
+                    <li>Run the instructor training module</li>
+                    <li>Access the music generation system</li>
+                    <li>Begin training activities</li>
+                </ol>
+                
+                <a href="https://github.com/qqcatchan/Ai-instructor-training-VR" class="cta-button">
+                    View on GitHub →
+                </a>
+            </div>
+            
+            <!-- Support Section -->
+            <div class="section">
+                <h2>💬 Support & Contact</h2>
+                <p><strong>Repository Owner:</strong> qqcatchan</p>
+                <p><strong>GitHub Profile:</strong> <a href="https://github.com/qqcatchan" style="color: #667eea;">@qqcatchan</a></p>
+                <p><strong>Project Status:</strong> Active Development</p>
+                <p><strong>Last Updated:</strong> June 11, 2026</p>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>&copy; 2026 Music and Song Training VR Platform</p>
+        <p>Powered by AI Instructor Training | VR/XR Technology | Music Generation</p>
+        <p style="margin-top: 1rem; font-size: 0.9rem; color: #999;">
+            Repository: qqcatchan/Ai-instructor-training-VR | Merged Integration: 2026-06-11
+        </p>
+    </footer>
+</body>
+</html>

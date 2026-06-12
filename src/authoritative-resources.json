@@ -1,0 +1,45 @@
+{
+  "resources": [
+    {
+      "id": "shakespeare_hamlet_act3_scene1",
+      "type": "theater",
+      "name": "莎士比亚·哈姆雷特·第三幕第一场",
+      "content": "To be, or not to be, that is the question...",
+      "source": "Project Gutenberg - Shakespeare Complete Works"
+    },
+    {
+      "id": "speech_training_standard",
+      "type": "speech",
+      "name": "标准英语发音教材",
+      "content": "The quick brown fox jumps over the lazy dog.",
+      "source": "Cambridge English Pronunciation Guide"
+    },
+    {
+      "id": "motion_sword_example",
+      "type": "motion",
+      "name": "剑击训练动作标准",
+      "data": [
+        { "joint": "elbow", "x": 50, "y": 30 },
+        { "joint": "knee", "x": 90, "y": 80 },
+        { "joint": "shoulder", "x": 40, "y": 60 }
+      ],
+      "source": "International Fencing Federation Training Manual"
+    },
+    {
+      "id": "song_lyrics_example",
+      "type": "music",
+      "name": "标准歌曲演唱教材",
+      "content": "Twinkle, twinkle, little star, how I wonder what you are.",
+      "pitch": 440,
+      "source": "ABRSM Music Grading Curriculum"
+    },
+    {
+      "id": "mandarin_speech",
+      "type": "speech",
+      "name": "标准普通话发音训练",
+      "content": "你好，欢迎来到虚拟训练系统。",
+      "language": "zh-CN",
+      "source": "中国语言文字工作委员会规范"
+    }
+  ]
+}

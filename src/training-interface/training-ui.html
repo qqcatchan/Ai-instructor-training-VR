@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 虛擬教練訓練系統</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .container {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      max-width: 900px;
+      width: 100%;
+      padding: 40px;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 30px;
+      font-size: 2.5em;
+    }
+    .training-section {
+      margin-bottom: 30px;
+    }
+    .training-section h3 {
+      color: #667eea;
+      margin-bottom: 15px;
+      font-size: 1.3em;
+    }
+    .button-group {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 12px 24px;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      background: #764ba2;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+    }
+    .input-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    input[type="text"],
+    input[type="file"],
+    select {
+      flex: 1;
+      padding: 10px 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 1em;
+    }
+    input[type="text"]:focus,
+    input[type="file"]:focus,
+    select:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+    }
+    #result {
+      background: #f5f5f5;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 20px;
+      display: none;
+    }
+    #result.show {
+      display: block;
+    }
+    .score {
+      font-size: 1.2em;
+      color: #667eea;
+      font-weight: bold;
+    }
+    video, canvas {
+      max-width: 100%;
+      margin-top: 20px;
+      border-radius: 10px;
+      display: none;
+    }
+    video.active, canvas.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎓 AI 虛擬教練訓練系統</h1>
+
+    <!-- 訓練類型選擇 -->
+    <div class="training-section">
+      <h3>選擇訓練類型</h3>
+      <div class="button-group">
+        <button onclick="startMotionTraining()">🏃 運動訓練</button>
+        <button onclick="startMusicTraining(440)">🎵 音樂演唱訓練</button>
+        <button onclick="startSpeechTraining('Bonjour')">🗣️ 語言發音訓練</button>
+      </div>
+    </div>
+
+    <!-- 片段選擇 -->
+    <div class="training-section">
+      <h3>自定義訓練片段</h3>
+      <div class="input-group">
+        <select id="existingMaterial">
+          <option value="">選擇現有素材...</option>
+          <option value="segment1">片段 1：基本劍擊動作</option>
+          <option value="segment2">片段 2：發音練習句子</option>
+          <option value="segment3">片段 3：歌詞朗讀</option>
+        </select>
+      </div>
+      <button onclick="processSelectedSegment()">開始訓練</button>
+    </div>
+
+    <!-- 上傳演示 -->
+    <div class="training-section">
+      <h3>生成新片段</h3>
+      <div class="input-group">
+        <input id="demoFile" type="file" />
+      </div>
+      <button onclick="processUploadedDemo()">生成內容</button>
+    </div>
+
+    <!-- 資源搜索 -->
+    <div class="training-section">
+      <h3>搜索權威資源</h3>
+      <div class="input-group">
+        <input id="searchKeyword" type="text" placeholder="例如：哈姆雷特" />
+      </div>
+      <button onclick="searchContent()">搜索資源</button>
+    </div>
+
+    <!-- 結果顯示 -->
+    <div id="result"></div>
+    
+    <!-- 媒體元素 -->
+    <video id="video" autoplay playsinline></video>
+    <canvas id="canvas"></canvas>
+  </div>
+
+  <script>
+    function processSelectedSegment() {
+      const selectedMaterial = document.getElementById("existingMaterial").value;
+      if (selectedMaterial) {
+        console.log(`訓練開始，現有片段: ${selectedMaterial}`);
+        showResult(`已加載片段: ${selectedMaterial}`);
+      } else {
+        alert("請選擇一個片段！");
+      }
+    }
+
+    function processUploadedDemo() {
+      const demoFile = document.getElementById("demoFile").files[0];
+      if (demoFile) {
+        console.log(`開始分析上傳文件: ${demoFile.name}`);
+        showResult(`正在分析: ${demoFile.name}`);
+      } else {
+        alert("請上傳一個文件！");
+      }
+    }
+
+    async function searchContent() {
+      const keyword = document.getElementById("searchKeyword").value;
+      if (keyword) {
+        showResult(`正在搜索資源: ${keyword}...`);
+      } else {
+        alert("請輸入搜索關鍵字！");
+      }
+    }
+
+    function startMotionTraining() {
+      showResult("🏃 運動訓練已啟動，請允許攝像頭訪問權限");
+      const video = document.getElementById("video");
+      video.classList.add("active");
+    }
+
+    function startMusicTraining(frequency) {
+      showResult(`🎵 音樂訓練已啟動，目標頻率: ${frequency}Hz`);
+    }
+
+    function startSpeechTraining(targetPhrase) {
+      showResult(`🗣️ 語言訓練已啟動，目標: "${targetPhrase}"`);
+    }
+
+    function showResult(message) {
+      const resultDiv = document.getElementById("result");
+      resultDiv.textContent = message;
+      resultDiv.classList.add("show");
+    }
+  </script>
+</body>
+</html>

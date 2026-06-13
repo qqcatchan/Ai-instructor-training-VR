@@ -1,0 +1,101 @@
+name: Unity Build + FactCheck Report + Cloud Sync + Notifications
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        targetPlatform: [WebGL, StandaloneWindows64, StandaloneOSX, StandaloneLinux64, Android, iOS]
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Unity Build
+      uses: game-ci/unity-builder@v2
+      with:
+        unityVersion: 2022.3.0f1
+        targetPlatform: ${{ matrix.targetPlatform }}
+
+    - name: Upload Build Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: Build-${{ matrix.targetPlatform }}
+        path: build/${{ matrix.targetPlatform }}
+
+  factcheck-report:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Generate FactCheck Report (JSON → PDF)
+      run: |
+        python scripts/generate_report.py --input Reports/factcheck.json --output factcheck.pdf
+
+    - name: Upload FactCheck Report
+      uses: actions/upload-artifact@v3
+      with:
+        name: FactCheck-Report
+        path: factcheck.pdf
+
+    - name: Release Report
+      uses: softprops/action-gh-release@v1
+      with:
+        files: factcheck.pdf
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Upload to OneDrive
+      uses: skjnldsv/onedrive-action@v2
+      with:
+        client_id: ${{ secrets.ONEDRIVE_CLIENT_ID }}
+        client_secret: ${{ secrets.ONEDRIVE_CLIENT_SECRET }}
+        refresh_token: ${{ secrets.ONEDRIVE_REFRESH_TOKEN }}
+        local_file: factcheck.pdf
+        remote_path: /Reports/factcheck.pdf
+
+    - name: Upload to Google Drive
+      uses: adityak74/google-drive-upload@v1
+      with:
+        credentials: ${{ secrets.GDRIVE_CREDENTIALS }}
+        filename: factcheck.pdf
+        folderId: ${{ secrets.GDRIVE_FOLDER_ID }}
+
+    - name: Upload to Azure Blob
+      uses: azure/storage-blob-upload-action@v1
+      with:
+        connection_string: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
+        container_name: reports
+        source: factcheck.pdf
+
+    - name: Send Email Notification
+      uses: dawidd6/action-send-mail@v3
+      with:
+        server_address: smtp.gmail.com
+        server_port: 465
+        username: ${{ secrets.EMAIL_USER }}
+        password: ${{ secrets.EMAIL_PASS }}
+        subject: "新 FactCheck 報告已生成"
+        body: "團隊好，最新 FactCheck 報告已生成並推送到雲端，請查閱。"
+        to: team@example.com
+        attachments: factcheck.pdf
+
+    - name: Slack Notification
+      uses: slackapi/slack-github-action@v1.23.0
+      with:
+        payload: |
+          {
+            "channel": "#ai-upgrade",
+            "text": "📑 新 FactCheck 報告已生成，請查閱雲端連結。"
+          }
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+
+    - name: Teams Notification
+      run: |
+        curl -H 'Content-Type: application/json' \
+        -d '{"text":"📢 新 FactCheck 報告已生成，請查閱雲端連結"}' \
+        ${{ secrets.TEAMS_WEBHOOK_URL }}

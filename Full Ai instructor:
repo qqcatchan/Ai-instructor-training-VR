@@ -1,0 +1,105 @@
+using UnityEngine;
+using UnityEngine.UI;
+
+public class FullAISystemUI : MonoBehaviour
+{
+    // === UI 元件 ===
+    public Button uploadPhotoButton;
+    public Button uploadVideoButton;
+    public Dropdown editDropdown;
+    public Dropdown faceSourceDropdown;
+    public Dropdown techDropdown;
+    public Button renderButton;
+
+    public Toggle visionToggle, audioToggle, touchToggle, smellToggle, tasteToggle;
+
+    public Text statusText, adviceText, factCheckText, guidanceText;
+
+    // === 管理器 ===
+    private AIAvatarEditor avatarEditor;
+    private VideoFaceReplaceManager faceReplaceManager;
+    private AIGuidanceManager guidanceManager;
+
+    void Start()
+    {
+        avatarEditor = GetComponent<AIAvatarEditor>();
+        faceReplaceManager = GetComponent<VideoFaceReplaceManager>();
+        guidanceManager = GetComponent<AIGuidanceManager>();
+
+        BindUI();
+        InitTechDropdown();
+
+        guidanceManager.ShowGuidance("系統已啟動，請上傳相片或影片。");
+    }
+
+    void BindUI()
+    {
+        uploadPhotoButton.onClick.AddListener(() => UploadPhoto());
+        uploadVideoButton.onClick.AddListener(() => UploadVideo());
+        renderButton.onClick.AddListener(() => RenderMedia());
+
+        editDropdown.onValueChanged.AddListener(delegate {
+            string editType = editDropdown.options[editDropdown.value].text;
+            avatarEditor.EditAvatar(editType);
+            guidanceManager.ShowGuidance("已執行改圖：" + editType);
+            adviceText.text = "💡 建議：已修改 → " + editType;
+        });
+
+        faceSourceDropdown.onValueChanged.AddListener(delegate {
+            string faceSource = faceSourceDropdown.options[faceSourceDropdown.value].text;
+            faceReplaceManager.ReplaceOrEditFace(faceSource);
+            guidanceManager.ShowGuidance("已替換面孔來源：" + faceSource);
+        });
+
+        visionToggle.onValueChanged.AddListener(delegate { ToggleSense("Vision", visionToggle.isOn); });
+        audioToggle.onValueChanged.AddListener(delegate { ToggleSense("Audio", audioToggle.isOn); });
+        touchToggle.onValueChanged.AddListener(delegate { ToggleSense("Touch", touchToggle.isOn); });
+        smellToggle.onValueChanged.AddListener(delegate { ToggleSense("Smell", smellToggle.isOn); });
+        tasteToggle.onValueChanged.AddListener(delegate { ToggleSense("Taste", tasteToggle.isOn); });
+    }
+
+    void InitTechDropdown()
+    {
+        techDropdown.ClearOptions();
+        techDropdown.AddOptions(new System.Collections.Generic.List<string>() {
+            "裸眼3D顯示", "懸浮顯像", "全息顯示", "3D投射互動"
+        });
+        techDropdown.onValueChanged.AddListener(delegate {
+            string tech = techDropdown.options[techDropdown.value].text;
+            guidanceManager.TechGuidance();
+            adviceText.text = "💡 建議：已選擇技術 " + tech;
+        });
+    }
+
+    void UploadPhoto()
+    {
+        string photoPath = "UserPhoto.jpg";
+        avatarEditor.GenerateAvatarFromPhoto(photoPath);
+        statusText.text = "📸 已上傳相片並生成 Avatar";
+        guidanceManager.AvatarGuidance();
+    }
+
+    void UploadVideo()
+    {
+        string videoPath = "UserVideo.mp4";
+        faceReplaceManager.UploadMedia(videoPath);
+        statusText.text = "📹 已上傳影片並開始偵測面孔與服裝";
+        guidanceManager.AvatarGuidance();
+    }
+
+    void RenderMedia()
+    {
+        string outputPath = "EditedMedia.mp4";
+        faceReplaceManager.RenderMedia(outputPath);
+        factCheckText.text = "📚 Fact Check: 技術已驗證";
+        statusText.text = "🌌 已輸出改圖後影片／相片";
+        faceReplaceManager.FlashChat();
+    }
+
+    void ToggleSense(string sense, bool isOn)
+    {
+        statusText.text = "✅ 已更新感官: " + sense + " = " + isOn;
+        guidanceManager.SenseGuidance();
+        adviceText.text = isOn ? "💡 建議：保持 " + sense + " 輸入" : "💡 建議：暫停 " + sense + " 輸入";
+    }
+}

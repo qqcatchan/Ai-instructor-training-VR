@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<!-- 1. 一定要設定語言（例如 zh-Hant 代表繁體中文），等螢幕閱讀器知用咩發音 -->
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 2. Title 寫得清清楚楚，盲人一入網頁就知自己去咗邊頁 -->
+    <title>首頁 - 我的無障礙網站範例</title>
+</head>
+<body>
+
+    <!-- 3. 主要導覽列用 <nav> -->
+    <nav aria-label="主選單">
+        <ul>
+            <li><a href="#main-content">跳到主要內容</a></li> <!-- 方便鍵盤使用者直接跳過 Menu -->
+            <li><a href="/">首頁</a></li>
+            <li><a href="/about">關於我們</a></li>
+        </ul>
+    </nav>
+
+    <!-- 4. 主要內容用 <main>，全網頁只可以有一個 <main> -->
+    <main id="main-content">
+        <h1>歡迎來到我們的網站</h1>
+        <p>呢度係網頁嘅主要內容...</p>
+        
+        <!-- 按鈕用 <button>，唔好用 <div> -->
+        <button type="button" onclick="alert('提交成功！')">提交資料</button>
+    </main>
+
+    <!-- 5. 頁腳用 <footer> -->
+    <footer>
+        <p>&copy; 2026 版權所有</p>
+    </footer>
+
+</body>
+</html>

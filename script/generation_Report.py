@@ -2,6 +2,15 @@ import json
 from fpdf import FPDF
 import sys
 
+from fpdf import FPDF
+
+pdf = FPDF()
+pdf.add_page()
+# 需先準備好中文字型檔案並載入
+pdf.add_font('CustomChinese', '', 'NotoSansTC-Regular.ttf', uni=True) 
+pdf.set_font('CustomChinese', size=12)
+
+
 def generate_report(input_file, output_file):
     # 讀取測試結果 JSON
     with open(input_file, 'r', encoding='utf-8') as f:

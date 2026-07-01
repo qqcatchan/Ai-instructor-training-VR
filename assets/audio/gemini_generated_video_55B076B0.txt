@@ -1,0 +1,6 @@
+This file records the source raw URL for gemini_generated_video_55B076B0.mp4 from the Chinese-s-opera- repo.
+
+Raw URL:
+https://raw.githubusercontent.com/qqcatchan/Chinese-s-opera-/main/gemini_generated_video_55B076B0.mp4
+
+Note: If you prefer an MP3 audio-only file instead of a large MP4, I can extract/convert and upload an MP3 into /assets/audio/opera_sample.mp3.

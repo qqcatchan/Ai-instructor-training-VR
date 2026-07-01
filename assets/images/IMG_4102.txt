@@ -1,0 +1,6 @@
+This file records the source raw URL for IMG_4102.png from the Chinese-s-opera- repo.
+
+Raw URL:
+https://raw.githubusercontent.com/qqcatchan/Chinese-s-opera-/main/IMG_4102.png
+
+Note: If you want the actual binary copied into this repo (to avoid external CDN dependency), let me know and I will upload the image file directly into /assets/images/IMG_4102.png.

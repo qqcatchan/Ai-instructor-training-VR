@@ -1,8 +1,8 @@
 // music-engine.js
 export class MusicEngine {
     constructor() {
-        // Use a media file from Chinese-s-opera- repo (may be mp4 with audio). If you have a proper mp3, replace the URL.
-        this.audio = new Audio('https://raw.githubusercontent.com/qqcatchan/Chinese-s-opera-/main/gemini_generated_video_55B076B0.mp4');
+        // Use local audio asset. Ensure assets/audio/opera_sample.mp3 exists in the branch.
+        this.audio = new Audio('/assets/audio/opera_sample.mp3');
         this.isPlaying = false;
         this.audio.crossOrigin = 'anonymous';
         this.audio.loop = true;

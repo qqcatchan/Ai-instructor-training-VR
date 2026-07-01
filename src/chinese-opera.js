@@ -18,8 +18,8 @@ export async function initStage(container) {
     scene.add(light);
 
     const geometry = new THREE.CircleGeometry(2.2, 64);
-    // Use image from Chinese-s-opera- repo raw CDN
-    const textureUrl = 'https://raw.githubusercontent.com/qqcatchan/Chinese-s-opera-/main/IMG_4102.png';
+    // Use local asset path. Make sure assets/images/IMG_4102.png exists in the branch.
+    const textureUrl = '/assets/images/IMG_4102.png';
     const texture = new THREE.TextureLoader().load(textureUrl,
         () => {},
         undefined,

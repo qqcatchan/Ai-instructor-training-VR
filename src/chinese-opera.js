@@ -18,8 +18,13 @@ export async function initStage(container) {
     scene.add(light);
 
     const geometry = new THREE.CircleGeometry(2.2, 64);
-    const textureUrl = '/assets/images/opera_disc.png';
-    const texture = new THREE.TextureLoader().load(textureUrl);
+    // Use image from Chinese-s-opera- repo raw CDN
+    const textureUrl = 'https://raw.githubusercontent.com/qqcatchan/Chinese-s-opera-/main/IMG_4102.png';
+    const texture = new THREE.TextureLoader().load(textureUrl,
+        () => {},
+        undefined,
+        (err) => { console.warn('載入貼圖錯誤', err); }
+    );
     const material = new THREE.MeshBasicMaterial({ map: texture, side: THREE.DoubleSide });
     disc = new THREE.Mesh(geometry, material);
     scene.add(disc);
@@ -30,7 +35,7 @@ export async function initStage(container) {
 export function startStage() {
     if (!renderer) return;
     function animate() {
-        disc.rotation.y += 0.01;
+        if (disc) disc.rotation.y += 0.01;
         renderer.render(scene, camera);
         animationId = requestAnimationFrame(animate);
     }
